@@ -1,26 +1,11 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 
 const props = defineProps(['loading']);
 const emit = defineEmits(['predict', 'county-selected']);
 
 // Mock Data for California Counties "Weather"
 const counties = [
-    {
-        id: 'LA', name: '洛杉磯郡 (Los Angeles)',
-        data: {
-            readmits_prop: 0.00512,
-            icd_version: 1,
-            pcpi_log: 10.85,
-            total_admits_log: 11.2,
-            last_year_rate: 16.5,
-            // Raw for clustering heuristic
-            PCPI: 51200, 
-            Population: 9800000,
-            '30-day Readmission Rate (Consolidated)': 16.5 
-        },
-        temp: 16.5 // Display "temp" (rate) for list
-    },
     {
         id: 'SF', name: '舊金山郡 (San Francisco)',
         data: {
@@ -34,20 +19,6 @@ const counties = [
             '30-day Readmission Rate (Consolidated)': 11.2
         },
         temp: 11.2
-    },
-    {
-        id: 'SD', name: '聖地牙哥郡 (San Diego)',
-        data: {
-            readmits_prop: 0.00480,
-            icd_version: 1,
-            pcpi_log: 11.20,
-            total_admits_log: 10.5,
-            last_year_rate: 13.8,
-            PCPI: 72000,
-            Population: 3300000,
-            '30-day Readmission Rate (Consolidated)': 13.8
-        },
-        temp: 13.8
     },
     {
         id: 'FR', name: '弗雷斯諾郡 (Fresno)',
@@ -64,20 +35,6 @@ const counties = [
         temp: 17.2
     },
     {
-        id: 'OC', name: '橘郡 (Orange County)',
-        data: {
-            readmits_prop: 0.00450,
-            icd_version: 1,
-            pcpi_log: 11.60,
-            total_admits_log: 10.8,
-            last_year_rate: 12.5,
-            PCPI: 110000,
-            Population: 3100000,
-            '30-day Readmission Rate (Consolidated)': 12.5
-        },
-        temp: 12.5
-    },
-    {
         id: 'IN', name: '因約郡 (Inyo County)',
         data: {
             readmits_prop: 0.00500,
@@ -90,6 +47,49 @@ const counties = [
             '30-day Readmission Rate (Consolidated)': 14.5
         },
         temp: 14.5
+    },
+    {
+        id: 'LA', name: '洛杉磯郡 (Los Angeles)',
+        data: {
+            readmits_prop: 0.00512,
+            icd_version: 1,
+            pcpi_log: 10.85,
+            total_admits_log: 11.2,
+            last_year_rate: 16.5,
+            // Raw for clustering heuristic
+            PCPI: 51200, 
+            Population: 9800000,
+            '30-day Readmission Rate (Consolidated)': 16.5 
+        },
+        temp: 16.5 // Display "temp" (rate) for list
+    },
+    {
+        id: 'SD', name: '聖地牙哥郡 (San Diego)',
+        data: {
+            readmits_prop: 0.00480,
+            icd_version: 1,
+            pcpi_log: 11.20,
+            total_admits_log: 10.5,
+            last_year_rate: 13.8,
+            PCPI: 72000,
+            Population: 3300000,
+            '30-day Readmission Rate (Consolidated)': 13.8
+        },
+        temp: 13.8
+    },
+    {
+        id: 'OC', name: '橘郡 (Orange County)',
+        data: {
+            readmits_prop: 0.00450,
+            icd_version: 1,
+            pcpi_log: 11.60,
+            total_admits_log: 10.8,
+            last_year_rate: 12.5,
+            PCPI: 110000,
+            Population: 3100000,
+            '30-day Readmission Rate (Consolidated)': 12.5
+        },
+        temp: 12.5
     }
 ];
 
@@ -160,6 +160,15 @@ onMounted(() => {
     selectCounty(counties[0]);
 });
 
+
+const clusterColorClass = computed(() => {
+    if (!clusterName.value) return 'text-slate-400 border-slate-600';
+    if (clusterName.value.includes('醫療中心')) return 'text-blue-400 border-blue-500 bg-blue-900/20';
+    if (clusterName.value.includes('醫療弱勢區')) return 'text-orange-400 border-orange-500 bg-orange-900/20';
+    if (clusterName.value.includes('小型流量區') || clusterName.value.includes('Low Volume')) return 'text-green-400 border-green-500 bg-green-900/20';
+    return 'text-slate-400 border-slate-600';
+});
+
 </script>
 
 <template>
@@ -203,7 +212,9 @@ onMounted(() => {
             <div class="relative z-10 text-center mt-2">
                 <h2 class="text-3xl font-bold text-white mb-1">
                     {{ selectedCounty.name.split(' (')[0] }}
-                    <span v-if="clusterName" class="text-lg font-normal text-slate-400 ml-2 border-l border-slate-600 pl-2">
+                    <span v-if="clusterName" 
+                          class="text-lg font-normal ml-2 border-l pl-2 px-2 py-0.5 rounded-md"
+                          :class="clusterColorClass">
                         {{ clusterName }}
                     </span>
                 </h2>
