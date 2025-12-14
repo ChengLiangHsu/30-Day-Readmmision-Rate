@@ -1,0 +1,19 @@
+# Ignore node_modules (Critical for cross-platform builds)
+**/node_modules
+**/dist
+
+# Ignore git and environments
+.git
+.venv
+.env
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore logs
+*.log
+
+# Ignore VSCode settings
+.vscode
+.idea

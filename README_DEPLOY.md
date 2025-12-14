@@ -11,9 +11,11 @@ Render 是一個簡單的雲端平台，可以直接連結 GitHub 進行部署�
 2. 在 [Render.com](https://render.com) 註冊帳號。
 3. 點擊 "New +" -> "Web Service"。
 4. 連結您的 GitHub Repository。
-5. Render 會自動偵測到 `Dockerfile`。
+5. **關鍵步驟**：在設定頁面中，請確認 **Language** (Runtime) 選擇的是 **Docker**。
+   - 如果 Render 預設選了 "Python"，請手動切換成 "Docker"。
+   - **不要** 在 Build Command 欄位輸入 docker 指令，選擇 Docker Runtime 後 Render 會自動讀取 Dockerfile。
 6. 點擊 "Create Web Service"。
-7. 等待建置完成，您將獲得一個公開網址 (例如 `https://your-app.onrender.com`)。
+7. 等待建置完成，您將獲得一個公開網址。
 
 ### 2. 使用 Railway
 1. 在 [Railway.app](https://railway.app) 註冊。
