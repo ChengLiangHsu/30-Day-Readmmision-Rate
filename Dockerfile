@@ -1,8 +1,12 @@
 # Stage 1: Build Frontend
-FROM node:18-alpine as build-step
+# Using Debian-based image (slim) instead of Alpine to fix binary compatibility issues (e.g. esbuild)
+FROM node:20-slim as build-step
 WORKDIR /app/frontend
-COPY frontend/package*.json ./
+
+# Copy ONLY package.json to force fresh dependency resolution for Linux
+COPY frontend/package.json ./
 RUN npm install
+
 COPY frontend/ ./
 RUN npm run build
 
