@@ -13,7 +13,7 @@ const fallbackFeatures = ['30-day Readmits (Proportion)', 'ICD Version(Ordinal)'
 
 const fetchFeatures = async () => {
     try {
-        const response = await fetch('http://localhost:5000/features');
+        const response = await fetch('/features');
         const data = await response.json();
         if (data.features) {
             features.value = data.features;
@@ -31,7 +31,7 @@ const handlePredict = async (formData) => {
     loading.value = true;
     try {
         // 1. Get Risk Score
-        const response = await fetch('http://localhost:5000/predict', {
+        const response = await fetch('/predict', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(formData)

@@ -7,8 +7,8 @@ import sys
 from sklearn.base import BaseEstimator, RegressorMixin
 import numpy as np
 
-app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "*"}})  # Enable CORS for Vue frontend
+app = Flask(__name__, static_folder='../frontend/dist', static_url_path='')
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 # Define Model Class for Pickle Loading
 
@@ -31,18 +31,10 @@ def load_model():
 
 load_model()
 
-
-@app.route('/', methods=['GET'])
+# Serve Vue App
+@app.route('/')
 def index():
-    return """
-    <div style="font-family: sans-serif; text-align: center; padding-top: 50px;">
-        <h1>EquiCare Lens Protocol 11 System API</h1>
-        <p>Status: <span style="color: green;">Running</span></p>
-        <p>Models Loaded: <span style="color: blue;">Yes</span></p>
-        <hr style="max-width: 400px;">
-        <p><small>Backend Services for Hospital Readmission Analysis</small></p>
-    </div>
-    """
+    return app.send_static_file('index.html')
 
 @app.route('/health', methods=['GET'])
 def health_check():

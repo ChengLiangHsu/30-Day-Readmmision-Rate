@@ -125,7 +125,7 @@ const selectCounty = async (county) => {
             'Total Admits people(log)': county.data.total_admits_log
         };
 
-        const response = await fetch('http://localhost:5000/predict', {
+        const response = await fetch('/predict', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
@@ -137,7 +137,7 @@ const selectCounty = async (county) => {
         }
         
         // Fetch Cluster Info
-        const clusterRes = await fetch('http://localhost:5000/cluster', {
+        const clusterRes = await fetch('/cluster', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
