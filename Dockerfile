@@ -34,4 +34,5 @@ EXPOSE 5000
 
 # Run Gunicorn
 # app object is in backend/app.py, so module is backend.app
-CMD ["gunicorn", "-b", "0.0.0.0:5000", "backend.app:app"]
+# Use PORT environment variable for Render compatibility (defaulting to 5000 if not set)
+CMD gunicorn -b 0.0.0.0:${PORT:-5000} backend.app:app
