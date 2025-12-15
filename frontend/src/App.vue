@@ -40,7 +40,7 @@ const handlePredict = async (formData) => {
         if (data.risk_score !== undefined) {
             risk.value = typeof data.risk_score === 'number' ? data.risk_score : 0;
         }
-        
+
         // 2. Refresh Cluster based on Manual Input (Optional if user wanted it, but current request is removing CMS dashboard)
         // However, user might still want clustering on InputForm even if Dashboard is gone?
         // User said "CMS ... block can be removed".
@@ -50,7 +50,7 @@ const handlePredict = async (formData) => {
         // CountyDashboard does its own clustering Fetch.
         // Manual Input might want clustering displayed? Maybe not. User didn't ask to remove Manual Input clustering, just the block.
         // We can keep the logic or remove if unused. Since StrategyDashboard is gone, autoSelectedClusterId is unused in App.vue.
-        
+
     } catch (e) {
         console.error("Prediction failed", e);
         alert("Prediction failed. Check backend.");
@@ -84,11 +84,14 @@ onMounted(() => {
                     <h1 class="text-2xl font-bold tracking-tight text-white">EquiCare Lens</h1>
                     <p class="text-xs font-semibold text-slate-400 tracking-wider uppercase">公平透鏡系統 • Protocol 11</p>
                 </div>
-                
+
                 <!-- Model Score Badge -->
                 <div class="ml-auto flex items-center gap-3">
-                    <div class="bg-indigo-500/10 border border-indigo-500/30 rounded-lg px-3 py-2 backdrop-blur-sm flex flex-col items-end">
-                        <span class="text-[10px] text-indigo-400 font-medium uppercase tracking-wider leading-none mb-1">Model Accuracy</span>
+                    <div
+                        class="bg-indigo-500/10 border border-indigo-500/30 rounded-lg px-3 py-2 backdrop-blur-sm flex flex-col items-end">
+                        <span
+                            class="text-[10px] text-indigo-400 font-medium uppercase tracking-wider leading-none mb-1">Model
+                            Accuracy</span>
                         <span class="text-base font-bold text-indigo-100 leading-none">R² = 0.611</span>
                     </div>
                 </div>
@@ -126,34 +129,33 @@ onMounted(() => {
             <!-- Project Info Section -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12 animate-fade-in-up">
                 <!-- Left Column -->
-                <div class="bg-slate-800/50 rounded-2xl p-6 border border-slate-700/50 backdrop-blur-sm hover:border-indigo-500/30 transition-colors">
+                <div
+                    class="bg-slate-800/50 rounded-2xl p-6 border border-slate-700/50 backdrop-blur-sm hover:border-indigo-500/30 transition-colors">
                     <div class="mb-8">
                         <h3 class="text-lg font-bold text-white mb-3 flex items-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-400" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0 1 1 0 002 0zm-1 4a1 1 0 00-1 1v3a1 1 0 002 0v-3a1 1 0 00-1-1z" clip-rule="evenodd" />
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-400" viewBox="0 0 20 20"
+                                fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0 1 1 0 002 0zm-1 4a1 1 0 00-1 1v3a1 1 0 002 0v-3a1 1 0 00-1-1z"
+                                    clip-rule="evenodd" />
                             </svg>
                             開發目的
                         </h3>
-                        <p class="text-slate-400 leading-relaxed">將複雜的醫療數據轉化為民眾易懂的「健康天氣預報」。</p>
-                    </div>
-                    
-                    <div>
-                        <h3 class="text-lg font-bold text-white mb-3 flex items-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-400" viewBox="0 0 20 20" fill="currentColor">
-                                <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
-                            </svg>
-                            設計理念
-                        </h3>
-                        <p class="text-slate-400 leading-relaxed">模仿天氣 App 介面，讓一般民眾能直觀了解所在地區的再入院風險。</p>
+                        <p class="text-slate-400 leading-relaxed">模仿天氣 App 介面</p>
+                        <p class="text-slate-400 leading-relaxed">將複雜的醫療數據轉化為民眾易懂的「風險預報」。</p>
                     </div>
                 </div>
 
                 <!-- Right Column -->
-                <div class="bg-slate-800/50 rounded-2xl p-6 border border-slate-700/50 backdrop-blur-sm hover:border-indigo-500/30 transition-colors">
+                <div
+                    class="bg-slate-800/50 rounded-2xl p-6 border border-slate-700/50 backdrop-blur-sm hover:border-indigo-500/30 transition-colors">
                     <div class="mb-8">
                         <h3 class="text-lg font-bold text-white mb-3 flex items-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-400" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd" />
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-400" viewBox="0 0 20 20"
+                                fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z"
+                                    clip-rule="evenodd" />
                             </svg>
                             核心功能
                         </h3>
@@ -175,13 +177,16 @@ onMounted(() => {
 
                     <div>
                         <h3 class="text-lg font-bold text-white mb-3 flex items-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-400" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-400" viewBox="0 0 20 20"
+                                fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                    clip-rule="evenodd" />
                             </svg>
                             應用價值
                         </h3>
                         <ul class="space-y-2 text-slate-400">
-                             <li class="flex items-start gap-2">
+                            <li class="flex items-start gap-2">
                                 <span class="text-indigo-500 mt-1.5">•</span>
                                 提升民眾對醫療資源分布的認知
                             </li>
@@ -210,6 +215,7 @@ onMounted(() => {
 <style>
 /* Clean Base */
 body {
-    background-color: #0f172a; /* slate-900 */
+    background-color: #0f172a;
+    /* slate-900 */
 }
 </style>

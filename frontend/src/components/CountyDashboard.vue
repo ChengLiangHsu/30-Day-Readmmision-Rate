@@ -57,9 +57,9 @@ const counties = [
             total_admits_log: 11.2,
             last_year_rate: 16.5,
             // Raw for clustering heuristic
-            PCPI: 51200, 
+            PCPI: 51200,
             Population: 9800000,
-            '30-day Readmission Rate (Consolidated)': 16.5 
+            '30-day Readmission Rate (Consolidated)': 16.5
         },
         temp: 16.5 // Display "temp" (rate) for list
     },
@@ -135,7 +135,7 @@ const selectCounty = async (county) => {
         if (resData.risk_score !== undefined) {
             riskScore.value = resData.risk_score.toFixed(2);
         }
-        
+
         // Fetch Cluster Info
         const clusterRes = await fetch('/cluster', {
             method: 'POST',
@@ -163,9 +163,9 @@ onMounted(() => {
 
 const clusterColorClass = computed(() => {
     if (!clusterName.value) return 'text-slate-400 border-slate-600';
-    if (clusterName.value.includes('醫療中心')) return 'text-blue-400 border-blue-500 bg-blue-900/20';
-    if (clusterName.value.includes('醫療弱勢區')) return 'text-orange-400 border-orange-500 bg-orange-900/20';
-    if (clusterName.value.includes('小型流量區') || clusterName.value.includes('Low Volume')) return 'text-green-400 border-green-500 bg-green-900/20';
+    if (clusterName.value.includes('醫療核心區')) return 'text-blue-400 border-blue-500 bg-blue-900/20';
+    if (clusterName.value.includes('極度偏遠區')) return 'text-yellow-400 border-yellow-500 bg-yellow-900/20';
+    if (clusterName.value.includes('資源緊繃區')) return 'text-orange-400 border-orange-500 bg-orange-900/20';
     return 'text-slate-400 border-slate-600';
 });
 
@@ -212,9 +212,8 @@ const clusterColorClass = computed(() => {
             <div class="relative z-10 text-center mt-2">
                 <h2 class="text-3xl font-bold text-white mb-1">
                     {{ selectedCounty.name.split(' (')[0] }}
-                    <span v-if="clusterName" 
-                          class="text-lg font-normal ml-2 border-l pl-2 px-2 py-0.5 rounded-md"
-                          :class="clusterColorClass">
+                    <span v-if="clusterName" class="text-lg font-normal ml-2 border-l pl-2 px-2 py-0.5 rounded-md"
+                        :class="clusterColorClass">
                         {{ clusterName }}
                     </span>
                 </h2>
@@ -237,9 +236,10 @@ const clusterColorClass = computed(() => {
                     </div>
                 </div>
             </div>
-                
+
             <!-- Strategy Recommendation -->
-            <div v-if="clusterStrategy" class="mt-4 px-4 py-3 bg-indigo-900/40 rounded-xl text-xs text-indigo-200 font-medium text-center border border-indigo-700/50 max-w-sm mx-auto">
+            <div v-if="clusterStrategy"
+                class="mt-4 px-4 py-3 bg-indigo-900/40 rounded-xl text-xs text-indigo-200 font-medium text-center border border-indigo-700/50 max-w-sm mx-auto">
                 💡 改善建議：{{ clusterStrategy }}
             </div>
 
@@ -254,11 +254,6 @@ const clusterColorClass = computed(() => {
                     class="bg-slate-700/50 p-4 rounded-2xl border border-slate-600 hover:border-indigo-500/50 transition-colors">
                     <div class="text-xs text-slate-400 uppercase mb-1 font-semibold">人均收入 (PCPI Log)</div>
                     <div class="text-xl font-bold text-slate-200">{{ selectedCounty.data.pcpi_log }}</div>
-                </div>
-                <div
-                    class="bg-slate-700/50 p-4 rounded-2xl border border-slate-600 hover:border-indigo-500/50 transition-colors">
-                    <div class="text-xs text-slate-400 uppercase mb-1 font-semibold">當前比率 (Current Prop)</div>
-                    <div class="text-xl font-bold text-slate-200">{{ selectedCounty.data.readmits_prop }}</div>
                 </div>
                 <div
                     class="bg-slate-700/50 p-4 rounded-2xl border border-slate-600 hover:border-indigo-500/50 transition-colors">
