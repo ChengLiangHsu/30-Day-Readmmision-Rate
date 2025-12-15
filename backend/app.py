@@ -326,11 +326,10 @@ def cluster_prediction():
                 # Assumed mapping based on label ID (0, 1, 2)
                 # Note: K-means labels are arbitrary, but usually consistent if random_state fixed.
                 # If using user's model, we assume 0,1,2 correspond to these.
-                # User gave list: [醫療弱勢區, 醫療中心, 小型低流量區]
                 cluster_map = {
-                    0: '醫療弱勢區 (Disadvantaged)',
-                    1: '醫療中心 (Medical Center)', 
-                    2: '小型流量區 (Low Volume)'
+                    0: '資源緊繃區',
+                    1: '極度偏遠區', 
+                    2: '醫療核心區'
                 }
                 
                 cluster_id = int(cluster_label) + 1  # 1-based for UI usually
@@ -339,9 +338,9 @@ def cluster_prediction():
 
                 # Strategies
                 strategies_map = {
-                    0: "針對醫療弱勢區：建議增加遠距醫療資源與社區巡迴檢測，提升基礎醫療可近性，並針對高風險個案進行主動追蹤。",
-                    1: "針對醫療中心：建議優化急診分流與出院準備服務，針對重症患者建立專屬照護路徑，以減少不必要的再入院。",
-                    2: "針對小型流量區：建議與鄰近醫學中心建立轉診合作機制，並加強基層醫護人員對於複雜共病的照護訓練。"
+                    0: "針對資源緊繃區：提升資源調度效率（SDG 9.1：包容、彈性的基礎建設）",
+                    1: "針對極度偏遠區：優化地區資源公平分配（SDG 9.4：升級所有行業提高永續）",
+                    2: "針對醫療核心區：投資數據研究以管理高再入院量（SDG 9.5：加強研究，提升技術）"
                 }
                 cluster_strategy = strategies_map.get(int(cluster_label), "請持續監測再入院率變化並維持現有照護品質。")
                 
@@ -414,20 +413,25 @@ def cluster_prediction():
         # Override based on simple heuristics
         if pcpi < 48000:
              cluster_id = 0 # Match PCA index 0
-             cluster_name = "醫療弱勢區 (Disadvantaged)"
+             cluster_name = "資源緊繃區"
              cluster_logic = "低收入 (PCPI < 48k)"
-             cluster_strategy = "針對醫療弱勢區：建議增加遠距醫療資源與社區巡迴檢測，提升基礎醫療可近性。"
+             cluster_strategy = "針對資源緊繃區：提升資源調度效率（SDG 9.1：包容、彈性的基礎建設）"
              
         elif pop < 150000: 
              # Independent check? Or sequential?
              # If High PCPI but Low Pop -> Small Volume? Or Medical Center?
              # Let's say if NOT Disadvantaged, check volume.
-             cluster_id = 2 # Match PCA index 2
-             cluster_name = "小型流量區 (Low Volume)"
+             cluster_id = 1 # Match PCA index 1
+             cluster_name = "極度偏遠區"
              cluster_logic = "人口較少 (Pop < 150k)"
-             cluster_strategy = "針對小型流量區：建議與鄰近醫學中心建立轉診合作機制，並加強基層醫護人員對於複雜共病的照護訓練。"
+             cluster_strategy = "針對極度偏遠區：優化地區資源公平分配（SDG 9.4：升級所有行業提高永續）"
              
-        # Else remains "醫療中心" (High PCPI, High Pop)
+        # Else remains "醫療核心區" (High PCPI, High Pop)
+        else:
+             cluster_id = 2
+             cluster_name = "醫療核心區"
+             cluster_logic = "高收入且人口密集"
+             cluster_strategy = "針對醫療核心區：投資數據研究以管理高再入院量（SDG 9.5：加強研究，提升技術）"
             
         return jsonify({
             "cluster_id": cluster_id,
